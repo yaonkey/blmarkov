@@ -33,6 +33,15 @@ def itoa(value: int) -> float:
         return pow(int(_temp[int(_val_len)]), 2)
 
 
+def get_min(elements: list) -> float:
+    """
+    Метод, возвращающий минимальное значение из выборки элементов (блок 7)
+    :param elements: Множество элементов p
+    :return: Минимальное значение, типа float
+    """
+    return 1 - min(elements)
+
+
 # debug
 if DEBUG:
     _a = int(input('Введите любое число: '))
