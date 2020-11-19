@@ -57,4 +57,4 @@ for i in range(2, v):
         _nums.append(d)
 
 for index, value in enumerate(_nums):
-    print(f'{index}: {toFixed(value, 15)}')
+    print(f'{index}: {toFixed(value, decimal_places)}')
