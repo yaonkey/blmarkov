@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import random
+from config import *
 
 
 # Требуется разработать генератор двоичных цепей маркова
@@ -33,31 +34,21 @@ def itoa(value: int) -> float:
 
 
 # debug
-_a = 182343729754923742
-print(itoa(_a))
+if DEBUG:
+    _a = int(input('Введите любое число: '))
+    print(itoa(_a))
 
-n = int(input('Введите n: '))  # 1
-v = int(input('Введите v: '))
-L = [0, 0]
-P0 = 0  # P null
-
-# дополнительные переменные
-_min_i: int = 2
+# n = int(input('Введите n: '))  # 1
+# v = int(input('Введите v: '))
 
 # заполнение L[i], где i = (2...v)
 for i in range(0, v):
-    L.append(int(input(f'Введите L({i + 2}): ')))
-
-# Генерация начального состояния
-p: list = [
-    P0,
-    1 - P0
-]
+    L.append(int(random.randint(0, 999)))
 
 _nums = []
 
 # заполнение последующих состояний
-for i in range(_min_i, v):
+for i in range(2, v):
     t = pow(2, (i - 2))
     for k in range(0, t - 1):
         d = (n % L[i]) / (L[i] - 1)  # расчет d
@@ -66,4 +57,4 @@ for i in range(_min_i, v):
         _nums.append(d)
 
 for index, value in enumerate(_nums):
-    print(f'{index}: {toFixed(value, 5)}')
+    print(f'{index}: {toFixed(value, 15)}')
