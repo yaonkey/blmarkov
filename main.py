@@ -1,69 +1,42 @@
-#!/usr/bin/env python
-import random
+#!/usr/bin/env python3
+from datetime import datetime
 from config import *
 
-
-# Требуется разработать генератор двоичных цепей маркова
-
-def toFixed(numObj: float, digits=2) -> str:
+def random_generator(initial_number=None):
     """
-    Позволяет определить точно количество чисел после запятой
-    :param numObj: Исходное число
-    :param digits: Количество чисел после запятой исходного числа
-    :return: Число с определенным количеством чисел после запятой
+        Генератор случайной последовательности.
+        Реализован на основе метода срединных квадратов.
     """
-    return f"{numObj:.{digits}f}"
+    # только в случае, когда входное значение отсутствует, сами генерируем первое случайное число
+    if initial_number == None:
+        initial_number = _get_initial_number()
+
+    if not isinstance(initial_number, int):
+        raise ValueError("Входное значение не является числом!")
+
+    while True:
+        square_str = str(initial_number ** 2)
+        start_index = len(square_str) // 4
+        finish_index = start_index + 1 if len(square_str) % 2 else start_index
+
+        initial_number = int(square_str[start_index:-finish_index])
+        yield initial_number
 
 
-def itoa(value: int) -> float:
+def _get_initial_number():
     """
-    Метод серединных квадратов
-    :param value: число, которое нужно разбить
-    :return: новое сгенерированное число, умноженное на квадрат
+        Возвращает количество миллисекунд в текущей дате для построения случайных чисел
     """
-    _temp = list((str(value)))
-    _val_len = 0
-    isD = len(_temp) % 2
-    if isD == 0:
-        _val_len = list([len(_temp) / 2 - 1, len(_temp) / 2 + 1])
-        __result = _temp[int(_val_len[0])], _temp[int(_val_len[1] - 1)]
-        return pow(int(f'{__result[0]}{__result[1]}'), 2)
-    else:
-        _val_len = len(_temp) / 2
-        return pow(int(_temp[int(_val_len)]), 2)
+    now = datetime.now()
+    return now.microsecond
 
+# если происходит запуск модуля, то выведем первые 5 случайных чисел
+if __name__ == "__main__":
+    end_result = 0
+    generator = random_generator(N)
+    for index, number in (zip(range(V), generator)):
+        print("{0}: {1}".format(index+1, number))
+        if index == V-1:
+            end_result = number
+    print(end_result)
 
-def get_min(elements: list) -> float:
-    """
-    Метод, возвращающий минимальное значение из выборки элементов (блок 7)
-    :param elements: Множество элементов p
-    :return: Минимальное значение, типа float
-    """
-    return 1 - min(elements)
-
-
-# debug
-if DEBUG:
-    _a = int(input('Введите любое число: '))
-    print(itoa(_a))
-
-# n = int(input('Введите n: '))  # 1
-# v = int(input('Введите v: '))
-
-# заполнение L[i], где i = (2...v)
-for i in range(0, v):
-    L.append(int(random.randint(0, 999)))
-
-_nums = []
-
-# заполнение последующих состояний
-for i in range(2, v):
-    t = pow(2, (i - 2))
-    for k in range(0, t - 1):
-        d = (n % L[i]) / (L[i] - 1)  # расчет d
-        n /= L[i]  # нахождение вероятности
-        n = abs(n)  # модуль числа n
-        _nums.append(d)
-
-for index, value in enumerate(_nums):
-    print(f'{index}: {toFixed(value, decimal_places)}')
