@@ -1,5 +1,5 @@
 class Encode:
-    def __init__(self, input_text: str, method, key=3):
+    def __init__(self, input_text: str, method: int, key=3):
         self.value = input_text
         self.key = key
         self.method = method
